@@ -17,7 +17,7 @@ import { BarLoader } from "react-spinners";
 const JobCard = ({
   job,
   savedInit = false,
-  onJobAction = () => {},
+  onJobAction = () => { },
   isMyJob = false,
 }) => {
   const [saved, setSaved] = useState(savedInit);
@@ -35,10 +35,16 @@ const JobCard = ({
   } = useFetch(saveJob);
 
   const handleSaveJob = async () => {
-    await fnSavedJob({
-      user_id: user.id,
-      job_id: job.id,
-    });
+    await fnSavedJob(
+      {
+        alreadySaved: saved,
+      },
+      {
+        user_id: user.id,
+        job_id: job.id,
+      }
+    );
+    setSaved(!saved); // Toggle the saved state immediately
     onJobAction();
   };
 
