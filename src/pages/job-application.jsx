@@ -34,6 +34,15 @@ const JobApplicationPage = () => {
     if (isLoaded) fnJob();
   }, [isLoaded]);
 
+  useEffect(() => {
+    if (job) {
+      console.log("Job data:", job);
+      console.log("User:", user);
+      console.log("Is recruiter?", job?.recruiter_id === user?.id);
+      console.log("Applications:", job?.applications);
+    }
+  }, [job, user]);
+
   const { loading: loadingHiringStatus, fn: fnHiringStatus } = useFetch(
     updateHiringStatus,
     {
@@ -107,6 +116,7 @@ const JobApplicationPage = () => {
         source={job?.requirements}
         className="bg-transparent sm:text-lg" // add global ul styles - tutorial
       />
+
       {job?.recruiter_id !== user?.id && (
         <ApplyJobDrawer
           job={job}
@@ -116,9 +126,25 @@ const JobApplicationPage = () => {
         />
       )}
       {loadingHiringStatus && <BarLoader width={"100%"} color="#36d7b7" />}
+
+
+
+      {/* Always show applications section for debugging */}
+      {job?.applications?.length > 0 && (
+        <div className="flex flex-col gap-2">
+          <h2 className="font-bold mb-4 text-xl ml-1">All Applications (Debug)</h2>
+          {job?.applications.map((application) => {
+            return (
+              <ApplicationCard key={application.id} application={application} />
+            );
+          })}
+        </div>
+      )}
+
+      {/* Original condition */}
       {job?.applications?.length > 0 && job?.recruiter_id === user?.id && (
         <div className="flex flex-col gap-2">
-          <h2 className="font-bold mb-4 text-xl ml-1">Applications</h2>
+          <h2 className="font-bold mb-4 text-xl ml-1">Applications (Original)</h2>
           {job?.applications.map((application) => {
             return (
               <ApplicationCard key={application.id} application={application} />
