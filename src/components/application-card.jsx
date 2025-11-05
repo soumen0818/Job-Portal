@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { updateApplicationStatus } from "@/api/apiApplication";
+import { updateApplicationStatus } from "@/api/applicationapi";
 import useFetch from "@/hooks/use_fetch";
 import { BarLoader } from "react-spinners";
 
